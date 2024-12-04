@@ -8,11 +8,11 @@
             <form method="POST">
                 {% csrf_token %}
 
-                {% include 'products/product-input-form.html' with inputLabelName="nameFormInput" inputType="text" attributeName="name" attributeValue=form.name.value|default_if_none:'' errors=form.name.errors %}
-                {% include 'products/product-input-form.html' with inputLabelName="descriptionFormInput" inputType="text" attributeName="description" attributeValue=form.description.value|default_if_none:'' errors=form.description.errors %}
-                {% include 'products/product-input-form.html' with inputLabelName="currentQuantityFormInput" inputType="number" attributeName="current_quantity_in_stock" attributeValue=form.current_quantity_in_stock.value|default_if_none:'' errors=form.current_quantity_in_stock.errors %}
-                {% include 'products/product-input-form.html' with inputLabelName="rawMaterialCostFormInput" inputType="number" attributeName="raw_material_cost" attributeValue=form.raw_material_cost.value|default_if_none:'' errors=form.raw_material_cost.errors %}
-                {% include 'products/product-input-form.html' with inputLabelName="profitValueFormInput" inputType="number" attributeName="profit_value" attributeValue=form.profit_value.value|default_if_none:'' errors=form.profit_value.errors %}
+                {% include 'products/product-input-form.html' with inputLabelName="nameFormInput" inputType="text" attributeName="name" attributeValue=form.name.value|default_if_none:'' errors=form.name.errors labelText="Name" %}
+                {% include 'products/product-input-form.html' with inputLabelName="descriptionFormInput" inputType="text" attributeName="description" attributeValue=form.description.value|default_if_none:'' errors=form.description.errors labelText="Description" %}
+                {% include 'products/product-input-form.html' with inputLabelName="currentQuantityFormInput" inputType="number" attributeName="current_quantity_in_stock" attributeValue=form.current_quantity_in_stock.value|default_if_none:'' errors=form.current_quantity_in_stock.errors labelText="Current quantity" %}
+                {% include 'products/product-input-form.html' with inputLabelName="rawMaterialCostFormInput" inputType="number" attributeName="raw_material_cost" attributeValue=form.raw_material_cost.value|default_if_none:'' errors=form.raw_material_cost.errors labelText="Cost price" %}
+                {% include 'products/product-input-form.html' with inputLabelName="profitValueFormInput" inputType="number" attributeName="profit_value" attributeValue=form.profit_value.value|default_if_none:'' errors=form.profit_value.errors labelText="Profit value" %}
 
                 <label for="profitTypeFormInput" class="form-label">Profit calculation</label>
                 <select class="form-select" name="profit_type" id="profitTypeFormInput" aria-label="Profit type">
@@ -32,7 +32,6 @@
         </div>
     </div>
 
-    <!-- Errors Modal -->
     {% if form.errors %}
         {% include 'products/error-modal.html' with errors=form.errors.as_ul %}
     {% endif %}
