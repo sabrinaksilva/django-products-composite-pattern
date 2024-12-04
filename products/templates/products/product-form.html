@@ -1,0 +1,43 @@
+{% extends 'shared/main.html' %}
+{% block content %}
+    <hr />
+
+    <div class="card mx-auto p-2 product-form-card" style="width: 70%">
+        <div class="card-header product-form-card-header">New Product</div>
+        <div class="card card-body product-form-card-body">
+            <form method="POST">
+                {% csrf_token %}
+
+                <label for="nameFormInput" class="form-label">Name</label>
+                <input type="text" class="form-control" id="nameFormInput" name="name" />
+
+                <label for="descriptionFormInput" class="form-label">Description</label>
+                <input type="text" class="form-control" id="descriptionFormInput" name="description" />
+
+                <label for="currentQuantityFormInput" class="form-label">Current Quantity</label>
+                <input
+                        type="number" class="form-control" id="currentQuantityFormInput"
+                        name="current_quantity_in_stock"
+                />
+
+                <label for="rawMaterialCostFormInput" class="form-label">Cost price</label>
+                <input
+                        type="number" step="0.01" class="form-control" id="rawMaterialCostFormInput"
+                        name="raw_material_cost"
+                />
+
+                <label for="profitValueFormInput" class="form-label">Profit value</label>
+                <input type="number" step="0.01" class="form-control" id="profitValueFormInput" name="profit_value" />
+
+                <label for="profitTypeFormInput" class="form-label">Profit calculation</label>
+                <select class="form-select" name="profit_type" id="profitTypeFormInput" aria-label="Profit type">
+                    <option value="BY_PERCENTAGE" selected>BY_PERCENTAGE</option>
+                    <option value="FIXED">FIXED</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary">SAVE</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

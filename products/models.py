@@ -27,9 +27,7 @@ class Product(models.Model):
                                                     default=0,
                                                     help_text="Current available (produced/in stock) quantity")
 
-    reserved_quantity_in_stock = models.IntegerField(null=False,
-                                                     blank=False,
-                                                     validators=[MinValueValidator(0)],
+    reserved_quantity_in_stock = models.IntegerField(validators=[MinValueValidator(0)],
                                                      default=0,
                                                      help_text="Quantity reserved to produce another parent product")
 
@@ -39,7 +37,7 @@ class Product(models.Model):
     profit_value = models.FloatField(
         null=False,
         blank=False,
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(0.0)],
         help_text="Profit value applied to the cost price"
     )
     profit_type = models.CharField(
