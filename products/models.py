@@ -22,7 +22,6 @@ class Product(models.Model):
     # in creation, this value is set with max value setted going trought all components
     # does not decrease current quantity of children elements if removed
     current_quantity_in_stock = models.IntegerField(null=False,
-                                                    blank=False,
                                                     validators=[MinValueValidator(0)],
                                                     default=0,
                                                     help_text="Current available (produced/in stock) quantity")

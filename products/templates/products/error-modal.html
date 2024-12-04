@@ -1,0 +1,21 @@
+<div class="modal fade show" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+     aria-hidden="true" style="display: block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Errors</h5>
+            </div>
+            <div class="modal-body">
+                {{ errors }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function closeModal() {
+        document.getElementById('errorModal').style.display = 'none';
+    }
+</script>
