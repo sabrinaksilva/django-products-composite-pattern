@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from django.core.validators import MinValueValidator
@@ -17,10 +18,20 @@ class Product(models.Model):
     )
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.CharField(max_length=256, null=True, blank=True)
-    total_quantity = models.IntegerField(null=False,
-                                         blank=False,
-                                         validators=[MinValueValidator(0)],
-                                         default=0)
+
+    # in creation, this value is set with max value setted going trought all components
+    # does not decrease current quantity of children elements if removed
+    current_quantity_in_stock = models.IntegerField(null=False,
+                                                    blank=False,
+                                                    validators=[MinValueValidator(0)],
+                                                    default=0,
+                                                    help_text="Current available (produced/in stock) quantity")
+
+    reserved_quantity_in_stock = models.IntegerField(null=False,
+                                                     blank=False,
+                                                     validators=[MinValueValidator(0)],
+                                                     default=0,
+                                                     help_text="Quantity reserved to produce another parent product")
 
     raw_material_cost = models.FloatField(null=False, blank=False,
                                           validators=[MinValueValidator(0)],
@@ -39,7 +50,17 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return f'Product ID [{self.id}] : {self.name} ({self.description})'
+        return json.dumps({
+            "id": str(self.id),
+            "name": self.name,
+            "description": self.description,
+            "current_quantity_in_stock": self.current_quantity_in_stock,
+            "reserved_quantity_in_stock": self.reserved_quantity_in_stock,
+            "raw_material_cost": self.raw_material_cost,
+            "profit_value": self.profit_value,
+            "profit_type": self.profit_type,
+            "cost_price": self.cost_price
+        })
 
     @property
     def components_list(self):
@@ -47,16 +68,37 @@ class Product(models.Model):
         Returns a list of all components (child products and their quantities)
         required to produce this product.
         """
+        all_components = self.components.all()
+        if not all_components:
+            all_components = []
         return [
             {
                 "child_product": component.child_product,
                 "quantity": component.quantity
             }
-            for component in self.components.all()
+            for component in all_components
         ]
 
     def is_composition(self):
         return len(self.components_list) > 0
+
+    @property
+    def cost_price(self):
+        """
+        Calculate the total cost price of the product:
+        Sum of the cost prices of all child products multiplied by their quantities,
+        plus this product's raw material cost.
+        """
+        # Base cost is the raw_material_cost of the current product
+        base_cost = self.raw_material_cost
+
+        # Add the cost of all components (child products)
+        components_cost = sum(
+            component.child_product.raw_material_cost * component.quantity
+            for component in self.components.select_related('child_product')
+        )
+
+        return base_cost + components_cost
 
 
 class ProductComponent(models.Model):
@@ -88,4 +130,15 @@ class ProductComponent(models.Model):
                                    help_text="The quantity of the child product required to produce the parent product.")
 
     def __str__(self):
-        return f'ProductComponent: {self.quantity} x {self.child_product.name} for {self.parent_product.name}'
+        return json.dumps({
+            "id": str(self.id),
+            "parent_product": {
+                "id": str(self.parent_product.id),
+                "name": self.parent_product.name
+            },
+            "child_product": {
+                "id": str(self.child_product.id),
+                "name": self.child_product.name
+            },
+            "quantity": self.quantity
+        })

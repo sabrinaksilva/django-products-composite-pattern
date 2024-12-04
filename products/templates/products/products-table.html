@@ -1,0 +1,30 @@
+{% block content %}
+
+    <table class="table table-striped-columns table-bordered">
+                <thead style="background-color: #d4bae7;">
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Total cost price</th>
+                        <th>Selling price</th>
+                        <th>Quantity in stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                {% for product in products %}
+                    <tr id={{ product.id }}>
+						<td>{{ product.name }}</td>
+						<td>{{ product.description }}</td>
+						<td>${{ product.cost_price }}</td>
+						<td>${{ product.selling_price }}</td>
+						<td>{{ product.current_quantity_in_stock }}</td>
+
+					</tr>
+                {% endfor %}
+                </tbody>
+
+			</table>
+{% endblock content %}

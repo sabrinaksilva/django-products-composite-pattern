@@ -1,7 +1,23 @@
-{% extends 'products/main.html' %}
+{% extends 'shared/main.html' %}
 
 {% block content %}
 
-    <h1>Products</h1>
+    <br>
 
-{% endblock %}
+    <div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Products</h5>
+                <button type="button" class="btn btn-primary">New Product</button>
+            </div>
+
+		</div>
+		<div class="card card-body">
+          {% include 'products/products-table.html' %}
+		</div>
+	</div>
+
+</div>
+
+{% endblock content %}
