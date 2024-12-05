@@ -7,12 +7,12 @@ class ProductService:
 
     ## TO-DO: deal not found
     @staticmethod
-    def get_product_by_id(product_id=None):
+    def get_product_by_id(product_id=None) -> Product:
         product = get_object_or_404(Product, id=product_id)
         return product
 
     @staticmethod
-    def get_products():
+    def get_products() -> list[Product]:
         products: list[Product] = Product.objects.all()
         return products
 

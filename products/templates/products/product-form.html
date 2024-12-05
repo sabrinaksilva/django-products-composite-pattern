@@ -2,30 +2,14 @@
 {% block content %}
     <hr/>
 
-    <div class="card mx-auto p-2 product-form-card" style="width: 70%">
+    <div class="card mx-auto p-2 product-form-card" style="width: 80%">
         <div class="card-header product-form-card-header">New Product</div>
         <div class="card card-body product-form-card-body">
             <form method="POST">
                 {% csrf_token %}
 
-                {% include 'products/product-input-form.html' with inputLabelName="nameFormInput" inputType="text" attributeName="name" attributeValue=form.name.value|default_if_none:'' errors=form.name.errors labelText="Name" %}
-                {% include 'products/product-input-form.html' with inputLabelName="descriptionFormInput" inputType="text" attributeName="description" attributeValue=form.description.value|default_if_none:'' errors=form.description.errors labelText="Description" %}
-                {% include 'products/product-input-form.html' with inputLabelName="currentQuantityFormInput" inputType="number" attributeName="current_quantity_in_stock" attributeValue=form.current_quantity_in_stock.value|default_if_none:'' errors=form.current_quantity_in_stock.errors labelText="Current quantity" %}
-                {% include 'products/product-input-form.html' with inputLabelName="rawMaterialCostFormInput" inputType="number" attributeName="raw_material_cost" attributeValue=form.raw_material_cost.value|default_if_none:'' errors=form.raw_material_cost.errors labelText="Cost price" %}
-                {% include 'products/product-input-form.html' with inputLabelName="profitValueFormInput" inputType="number" attributeName="profit_value" attributeValue=form.profit_value.value|default_if_none:'' errors=form.profit_value.errors labelText="Profit value" %}
-
-                <label for="profitTypeFormInput" class="form-label">Profit calculation</label>
-                <select class="form-select" name="profit_type" id="profitTypeFormInput" aria-label="Profit type">
-                    <option value="BY_PERCENTAGE" {% if form.profit_type.value == 'BY_PERCENTAGE' %}selected{% endif %}>
-                        BY_PERCENTAGE
-                    </option>
-                    <option value="FIXED" {% if form.profit_type.value == 'FIXED' %}selected{% endif %}>FIXED</option>
-                </select>
-                {% if form.profit_type.errors %}
-                    <div class="error text-danger">
-                        {{ form.profit_type.errors|join:"<br>" }}
-                    </div>
-                {% endif %}
+                {% include 'products/product-form-basic-fields.html' %}
+                {% include 'products/components.html' %}
 
                 <button type="submit" class="btn btn-primary">SAVE</button>
             </form>

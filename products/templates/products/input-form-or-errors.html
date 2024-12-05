@@ -1,0 +1,16 @@
+<div style="margin: 15px">
+    {% block content %}
+
+        <label for="{{ inputLabelName }}" class="form-label">{{ labelText }}</label>
+        <input
+                type="{{ inputType }}" class="form-control" id="{{ inputLabelName }}" name="{{ attributeName }}"
+                value="{{ attributeValue }}"
+        />
+
+        {% if errors %}
+            <div class="error text-danger">
+                {{ errors|join:"<br>" }}
+            </div>
+        {% endif %}
+    {% endblock content %}
+</div>

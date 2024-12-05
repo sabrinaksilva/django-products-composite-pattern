@@ -1,0 +1,37 @@
+{% block content %}
+    {% include 'products/input-form-or-errors.html' with inputLabelName="nameFormInput" inputType="text" attributeName="name" attributeValue=form.name.value|default_if_none:'' errors=form.name.errors labelText="Name" %}
+    {% include 'products/input-form-or-errors.html' with inputLabelName="descriptionFormInput" inputType="text" attributeName="description" attributeValue=form.description.value|default_if_none:'' errors=form.description.errors labelText="Description" %}
+
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'products/input-form-or-errors.html' with inputLabelName="profitValueFormInput" inputType="number" attributeName="profit_value" attributeValue=form.profit_value.value|default_if_none:'' errors=form.profit_value.errors labelText="Profit value" %}
+        </div>
+        <div class="col-md-3">
+            {% include 'products/input-form-or-errors.html' with inputLabelName="rawMaterialCostFormInput" inputType="number" attributeName="raw_material_cost" attributeValue=form.raw_material_cost.value|default_if_none:'' errors=form.raw_material_cost.errors labelText="Cost price" %}
+        </div>
+        <div class="col-md-3">
+            {% include 'products/input-form-or-errors.html' with inputLabelName="currentQuantityFormInput" inputType="number" attributeName="current_quantity_in_stock" attributeValue=form.current_quantity_in_stock.value|default_if_none:'' errors=form.current_quantity_in_stock.errors labelText="Current quantity" %}
+        </div>
+        <div class="col-md-3" style="align-self: center;">
+            <label for="profitTypeFormInput" class="form-label">Profit calculation</label>
+            <div style="margin-left: auto">
+                <select class="form-select" name="profit_type" id="profitTypeFormInput"
+                        aria-label="Profit type">
+                    <option value="BY_PERCENTAGE"
+                            {% if form.profit_type.value == 'BY_PERCENTAGE' %}selected{% endif %}>
+                        BY_PERCENTAGE
+                    </option>
+                    <option value="FIXED" {% if form.profit_type.value == 'FIXED' %}selected{% endif %}>
+                        FIXED
+                    </option>
+                </select>
+                {% if form.profit_type.errors %}
+                    <div class="error text-danger">
+                        {{ form.profit_type.errors|join:"<br>" }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

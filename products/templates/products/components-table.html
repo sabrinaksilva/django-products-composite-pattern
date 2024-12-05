@@ -1,0 +1,29 @@
+{% block content %}
+    <table id="componentsTable" class="table col-md">
+        {% for component in components %}
+            
+            <tr id={{ component.id }}>
+                <td class="col-7" id="child_component-select">
+                    Child component: {{ component.child_product }}
+                </td>
+
+                <td>
+                    Requested quantity: {{ component.quantity }}
+                </td>
+                <td>
+                    {% if component.id %}
+                        <form method="POST"
+                              action="{% url 'remove_component' component.parent_product.id component.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary" style="margin-left: auto">REMOVE
+                            </button>
+                        </form>
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+    </table>
+{% endblock content %}

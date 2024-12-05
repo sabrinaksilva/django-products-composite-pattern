@@ -26,7 +26,7 @@ class Product(models.Model):
                                                     default=0,
                                                     help_text="Current available (produced/in stock) quantity")
 
-    reserved_quantity_in_stock = models.IntegerField(validators=[MinValueValidator(0)],
+    reserved_quantity_in_stock = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)],
                                                      default=0,
                                                      help_text="Quantity reserved to produce another parent product")
 
@@ -63,21 +63,34 @@ class Product(models.Model):
     def components_list(self):
         """
         Returns a list of all components (child products and their quantities)
-        required to produce this product.
+        in a JSON-serializable format.
         """
         all_components = self.components.all()
         if not all_components:
             all_components = []
-        return [
-            {
-                "child_product": component.child_product,
-                "quantity": component.quantity
-            }
-            for component in all_components
-        ]
 
-    def is_composition(self):
-        return len(self.components_list) > 0
+            return [
+                {
+                    "product_component_id": str(component.id),
+                    "child_product_id": str(component.child_product.id),
+                    "child_product_name": str(component.child_product.name),
+                    "child_product_description": str(component.child_product.description),
+                    "child_product_current_quantity_in_stock": int(component.child_product.current_quantity_in_stock),
+                    "quantity": int(component.quantity)
+                }
+                for component in all_components
+            ]
+        # return [
+        #     {
+        #         "product_component_id": str(component.id),
+        #         "child_product_id": str(component.child_product.id),
+        #         "child_product_name": 'component.child_product.name',
+        #         "child_product_description": 'component.child_product.description',
+        #         "child_product_current_quantity_in_stock": 'component.child_product.current_quantity_in_stock',
+        #         "quantity": component.quantity
+        #     }
+        #     for component in all_components
+        # ]
 
     @property
     def cost_price(self):
