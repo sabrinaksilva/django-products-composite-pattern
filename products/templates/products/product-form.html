@@ -9,7 +9,7 @@
                 {% csrf_token %}
 
                 {% include 'products/product-form-basic-fields.html' %}
-                {% include 'products/components.html' %}
+                {% include 'components/components.html' %}
 
                 <button type="submit" class="btn btn-primary">SAVE</button>
             </form>
@@ -17,7 +17,7 @@
     </div>
 
     {% if form.errors %}
-        {% include 'products/error-modal.html' with errors=form.errors.as_ul %}
+        {% include 'shared/error-modal.html' with errors=form.errors.as_ul %}
     {% endif %}
 
 {% endblock %}

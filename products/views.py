@@ -80,11 +80,6 @@ def foo(request):
 
     all_components = ProductService.get_products()
 
-    # components = [{
-    #     "id": c.id,
-    #     ""
-    # }]
-
     context = {'components': all_components, }
 
-    return render(request, 'products/components.html', context)
+    return render(request, '', context)
